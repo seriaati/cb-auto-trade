@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "cb-auto-trade"
+version = "0.1.0"
+description = "可轉債自動交易"
+authors = ["seriaati <seria.ati@gmail.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+lxml = "^4.9.3"
+pandas = "^2.1.4"
+openpyxl = "^3.1.2"
+shioaji = {extras = ["speed"], version = "^1.1.13"}
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
