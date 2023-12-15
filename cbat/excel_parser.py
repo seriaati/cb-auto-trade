@@ -33,6 +33,10 @@ class ConvertibleBond:
             case_category=data["case_category"],
         )
 
+    @property
+    def yahoo_url(self) -> str:
+        return f"https://tw.stock.yahoo.com/q/ta?s={self.stock_id}"
+
     def dump_json(self) -> dict[str, str | None]:
         return {
             "stock_id": self.stock_id,

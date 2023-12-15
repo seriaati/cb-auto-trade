@@ -81,6 +81,8 @@ def main() -> None:
     if len(new_cbs) == len(excel_cbs):
         log.info("所有可轉債都是新的, 正在退出...")
         return
+    for cb in new_cbs:
+        line_notify(line_notify_token, f"\n[新的可轉債] {cb}\n[yahoo] {cb.yahoo_url}")
 
     try:
         api_key = os.environ["API_KEY"]
