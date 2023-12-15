@@ -14,12 +14,17 @@ def setup_logging():
         log.setLevel(logging.INFO)
         logging.getLogger("shioaji").setLevel(logging.CRITICAL)
         handler = logging.StreamHandler()
+        file_handler = logging.handlers.RotatingFileHandler(
+            "cbat.log", maxBytes=1024 * 1024, backupCount=5
+        )
         dt_fmt = "%Y-%m-%d %H:%M:%S"
         fmt = logging.Formatter(
             "[{asctime}] [{levelname}] {name}: {message}", dt_fmt, style="{"
         )
         handler.setFormatter(fmt)
+        file_handler.setFormatter(fmt)
         log.addHandler(handler)
+        log.addHandler(file_handler)
 
         yield
     finally:
