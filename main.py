@@ -164,7 +164,7 @@ def main() -> None:
         )
         line_notify(
             line_notify_token,
-            f"\n[下單成功] {cb}\n\n數量: {quantity} 股\n花費 NTD${spent}\n帳戶餘額: NTD${account_balance}",
+            f"\n[下單成功] {cb}\n\n數量: {quantity} 股\n收盤價: {last_close_price}\n花費 NTD${spent}\n帳戶餘額: NTD${account_balance}",
         )
 
 
