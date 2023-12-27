@@ -18,6 +18,7 @@ log = logging.getLogger("CB-Auto-Trade")
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--no-simulation", action="store_true", default=False)
 arg_parser.add_argument("--money-per-transaction", type=int, default=10000)
+arg_parser.add_argument("--buy", action="store_true", default=False)
 args = arg_parser.parse_args()
 no_simulation = args.no_simulation
 money_per_transaction = args.money_per_transaction
@@ -27,7 +28,7 @@ load_dotenv()
 
 def main() -> None:
     log.info(
-        f"參數: no_simulation={no_simulation}, money_per_transaction={money_per_transaction}"
+        f"參數: no_simulation={no_simulation}, money_per_transaction={money_per_transaction}, buy={args.buy}"
     )
 
     line_notify_token = os.getenv("LINE_NOTIFY_TOKEN")
@@ -83,6 +84,10 @@ def main() -> None:
         return
     for cb in new_cbs:
         line_notify(line_notify_token, f"\n[新的可轉債] {cb}\n[yahoo] {cb.yahoo_url}")
+
+    if not args.buy:
+        log.info("沒有指定 --buy 參數, 正在退出...")
+        return
 
     try:
         api_key = os.environ["API_KEY"]
