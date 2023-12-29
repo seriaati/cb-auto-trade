@@ -83,7 +83,19 @@ def main() -> None:
         log.info("所有可轉債都是新的, 正在退出...")
         return
     for cb in new_cbs:
-        line_notify(line_notify_token, f"\n[新的可轉債] {cb}\n[yahoo] {cb.yahoo_url}")
+        try:
+            last_close_price = requests.get(
+                f"https://stock-api.seriaati.xyz/history_trades/{cb.stock_id}?limit=1"
+            ).json()[-1]["close_price"]
+        except Exception as e:
+            log.error(f"取得 {cb} 最後收盤價失敗", exc_info=e)
+            line_notify(line_notify_token, f"\n[錯誤] 取得 {cb} 最後收盤價失敗")
+            continue
+
+        line_notify(
+            line_notify_token,
+            f"\n[新的可轉債] {cb}\n收盤假: {last_close_price}\n[yahoo] {cb.yahoo_url}",
+        )
 
     if not args.buy:
         log.info("沒有指定 --buy 參數, 正在退出...")
@@ -134,6 +146,7 @@ def main() -> None:
         if account_balance < money_per_transaction:
             log.info(f"帳戶餘額小於 NTD${money_per_transaction}, 正在退出...")
             return
+
         try:
             last_close_price = requests.get(
                 f"https://stock-api.seriaati.xyz/history_trades/{cb.stock_id}?limit=1"
